@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Linq.Expressions;
 using System.Threading;
 
-namespace RetryIt
+namespace CsiRH.Utils
 {
     public class Retry
     {
@@ -102,15 +102,9 @@ namespace RetryIt
         /// <returns></returns>
         public Retry Result<TResult>(Expression<Predicate<TResult>> expression = null)
         {
-            //var condition = expression == null ? null : (expression.Compile() as Predicate<object>);
-            //if (this.returns.Contains(typeof(TResult)))
-            //{
-            //    this.cachers[typeof(TException)] = condition;
-            //}
-            //else
-            //{
-            //    this.cachers.Add(typeof(TException), condition);
-            //}
+            var condition = expression == null ? null : (expression.Compile() as Predicate<object>);
+            if (this.returns.Contains(condition)) return this;
+            this.returns.Add(condition);
 
             return this;
         }
